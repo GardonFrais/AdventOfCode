@@ -49,43 +49,21 @@ test('parse game', () => {
 })
 
 test('game is possible', () => {
-  const input = 'Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green';
+  const input: Draw[] =  [
+    { red: 4, green: 0, blue: 3 },
+    { red: 1, green: 2, blue: 6 },
+    { red: 0, green: 2, blue: 0 }
+  ];
   expect(solve.isGamePossible(input, BAG_CONTENT)).toBe(true);
 });
 
 test('game is impossible', () => {
-  const input = 'Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red';
+  const input: Draw[] = [
+    { red: 20, green: 8, blue: 6 },
+    { red: 4, green: 13, blue: 5 },
+    { red: 1, green: 5, blue: 0 }
+  ];'Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red';
   expect(solve.isGamePossible(input, BAG_CONTENT)).toBe(false);
-});
-
-test('is draw possible', () => {
-  const input = '8 green, 6 blue, 2 red';
-  expect(solve.isDrawPossible(input, BAG_CONTENT)).toBe(true);
-});
-
-test('is draw possible with 2 colors', () => {
-  const input = '8 green, 2 red';
-  expect(solve.isDrawPossible(input, BAG_CONTENT)).toBe(true);
-});
-
-test('is draw impossible', () => {
-  const input = '8 green, 6 blue, 20 red';
-  expect(solve.isDrawPossible(input, BAG_CONTENT)).toBe(false);
-});
-
-test('is draw impossible with 2 colors', () => {
-  const input = '8 green, 20 red';
-  expect(solve.isDrawPossible(input, BAG_CONTENT)).toBe(false);
-});
-
-test('extract game number single digit', () => {
-  const input = 'Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red';
-  expect(solve.extractGameNumber(input)).toBe(3);
-});
-
-test('extract game number multiple digits digit', () => {
-  const input = 'Game 13: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red';
-  expect(solve.extractGameNumber(input)).toBe(13);
 });
 
 test('calc minimal colors to valid game', () => {

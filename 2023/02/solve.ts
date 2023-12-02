@@ -13,8 +13,10 @@ export const solve1 = (data: string, redNumber: number, greenNumber: number, blu
     'blue': blueNumber
   };
   return data.split('\n')
-    .map((line: string): number => isGamePossible(line, bagContent) ? extractGameNumber(line) : 0)
-    .reduce((acc, curr) => acc + curr, 0);
+    .map((game: string): number => {
+      const [gameId, gameValues] = parseGame(game);
+      return isGamePossible(gameValues, bagContent) ? gameId : 0;
+    }).reduce((acc, curr) => acc + curr, 0);
 }
 
 export const solve2 = (data: string): number => {
@@ -67,20 +69,9 @@ export const parseDraw = (draw: string): Draw => {
   return result;
 }
 
-export const isGamePossible = (game: string, bagContent: Draw): boolean => {
-  return game.split(':')[1]
-    .split(';')
-    .map((draw: string) => isDrawPossible(draw.trim(), bagContent))
-    .reduce((acc, curr) => acc && curr, true);
-}
-
-export const isDrawPossible = (draw: string, bagContent: Draw): boolean => {
-  const parsedDraw: Draw = parseDraw(draw);
-  return parsedDraw.red <= bagContent.red && parsedDraw.green <= bagContent.green && parsedDraw.blue <= bagContent.blue;
-}
-
-export const extractGameNumber = (data: string): number => {
-  return Number(data.split(' ')[1].slice(0, -1));
+export const isGamePossible = (game: Draw[], bagContent: Draw): boolean => {
+  const minimalBag = calcMinimalBag(game);
+  return minimalBag.red <= bagContent.red && minimalBag.green <= bagContent.green && minimalBag.blue <= bagContent.blue;
 }
 
 const loadFile = (filename: string): string => {
